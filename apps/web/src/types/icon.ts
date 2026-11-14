@@ -16,6 +16,15 @@ export type ActiveView =
   | { type: 'global-search'; query: string; page?: number }
   | { type: 'favorites'; tab: 'icons' | 'sets' };
 
+export interface UpstreamCollectionDetail {
+  prefix: string;
+  total: number;
+  title: string;
+  icons: string[];
+  categories?: Record<string, string[]>;
+  aliases?: Record<string, string>;
+}
+
 export interface CollectionAuthor {
   name: string;
   url?: string;

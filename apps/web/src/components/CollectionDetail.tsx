@@ -3,7 +3,7 @@ import { ArrowLeft, Search, Star, ExternalLink, Sparkles, ChevronLeft, ChevronRi
 import type { CollectionInfo, IconData, IconSetData, IconMetadata } from '../types/icon';
 import { IconCard } from './IconCard';
 import { getHubIconSet, isHubPrefix } from '../services/hubData';
-import { fetchIconsData, getCachedIconData } from '../services/iconifyApi';
+import { fetchIconsData, getCachedIconData, fetchUpstreamCollectionDetail } from '../services/iconifyApi';
 import { useToast } from './Toast';
 
 interface CollectionDetailProps {
@@ -63,15 +63,32 @@ export function CollectionDetail({
         setIconsMap(hubRes.iconSet.icons);
         setLoading(false);
       } else {
-        // Upstream collection: fetch samples or search query or prefix data
+        // Upstream collection: fetch full icon list and categories
         try {
+          const detail = await fetchUpstreamCollectionDetail(prefix);
+          if (cancelled) return;
+
+          if (detail && detail.icons.length > 0) {
+            setUpstreamIconNames(detail.icons);
+            if (detail.categories) {
+              setMetadata({ categories: detail.categories, aliases: detail.aliases });
+            }
+            // Fetch first page of icon data
+            const initialBatch = detail.icons.slice(0, ITEMS_PER_PAGE);
+            const fetched = await fetchIconsData(prefix, initialBatch);
+            if (cancelled) return;
+            setIconsMap(fetched);
+          } else {
+            // Fallback to samples if detail endpoint fails
+            const sampleList = collection.samples || [];
+            setUpstreamIconNames(sampleList);
+            const fetched = await fetchIconsData(prefix, sampleList);
+            if (cancelled) return;
+            setIconsMap(fetched);
+          }
+        } catch {
           const sampleList = collection.samples || [];
           setUpstreamIconNames(sampleList);
-          const fetched = await fetchIconsData(prefix, sampleList);
-          if (cancelled) return;
-          setIconsMap(fetched);
-        } catch {
-          // Ignore
         } finally {
           if (!cancelled) setLoading(false);
         }

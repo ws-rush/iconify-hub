@@ -1,4 +1,4 @@
-import type { CollectionInfo, IconData, IconSetData } from '../types/icon';
+import type { CollectionInfo, IconData, IconSetData, UpstreamCollectionDetail } from '../types/icon';
 
 const API_BASE = 'https://api.iconify.design';
 const COLLECTIONS_CACHE_KEY = 'iconify_collections_cache_v1';
@@ -171,6 +171,86 @@ export async function searchUpstreamIcons(query: string, limit: number = 64): Pr
     return [];
   } catch {
     return [];
+  }
+}
+
+const DETAIL_CACHE_PREFIX = 'iconify_detail_cache_';
+
+export async function fetchUpstreamCollectionDetail(prefix: string): Promise<UpstreamCollectionDetail | null> {
+  const cacheKey = `${DETAIL_CACHE_PREFIX}${prefix}`;
+  try {
+    const cachedRaw = localStorage.getItem(cacheKey);
+    if (cachedRaw) {
+      const parsed = JSON.parse(cachedRaw);
+      if (Date.now() - parsed.timestamp < CACHE_TTL_MS && parsed.data && Array.isArray(parsed.data.icons)) {
+        return parsed.data as UpstreamCollectionDetail;
+      }
+    }
+  } catch {
+    // Ignore cache read errors
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/collection?prefix=${encodeURIComponent(prefix)}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch collection detail for ${prefix}: HTTP ${res.status}`);
+    }
+    const raw = await res.json();
+    const iconSet = new Set<string>();
+
+    if (Array.isArray(raw.uncategorized)) {
+      for (const name of raw.uncategorized) {
+        if (typeof name === 'string' && name.trim()) iconSet.add(name.trim());
+      }
+    }
+    if (raw.categories && typeof raw.categories === 'object') {
+      for (const list of Object.values(raw.categories)) {
+        if (Array.isArray(list)) {
+          for (const name of list) {
+            if (typeof name === 'string' && name.trim()) iconSet.add(name.trim());
+          }
+        }
+      }
+    }
+    if (raw.aliases && typeof raw.aliases === 'object') {
+      for (const name of Object.keys(raw.aliases)) {
+        if (typeof name === 'string' && name.trim()) iconSet.add(name.trim());
+      }
+    }
+
+    const detail: UpstreamCollectionDetail = {
+      prefix,
+      total: typeof raw.total === 'number' ? raw.total : iconSet.size,
+      title: typeof raw.title === 'string' ? raw.title : prefix,
+      icons: Array.from(iconSet).sort(),
+      categories: raw.categories && typeof raw.categories === 'object' ? raw.categories : undefined,
+      aliases: raw.aliases && typeof raw.aliases === 'object' ? raw.aliases : undefined,
+    };
+
+    try {
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({ timestamp: Date.now(), data: detail })
+      );
+    } catch {
+      // Storage might be full
+    }
+
+    return detail;
+  } catch {
+    // Return cached if available even if stale
+    try {
+      const cachedRaw = localStorage.getItem(cacheKey);
+      if (cachedRaw) {
+        const parsed = JSON.parse(cachedRaw);
+        if (parsed.data && Array.isArray(parsed.data.icons)) {
+          return parsed.data as UpstreamCollectionDetail;
+        }
+      }
+    } catch {
+      // Ignore
+    }
+    return null;
   }
 }
 
