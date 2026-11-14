@@ -1,0 +1,32 @@
+{
+  "name": "iconify-hub",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Hub for unofficial Iconify icon sets",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "iconify-hub": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsx src/cli.ts build",
+    "build:adw": "tsx src/cli.ts build adw",
+    "compile": "tsc",
+    "typecheck": "tsc --noEmit",
+    "validate": "tsx src/cli.ts validate",
+    "list": "tsx src/cli.ts list",
+    "test": "tsx --test tests/*.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@iconify/tools": "^5.0.14",
+    "@iconify/types": "^2.0.0",
+    "@iconify/utils": "^3.1.7",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
