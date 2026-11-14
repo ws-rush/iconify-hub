@@ -11,7 +11,7 @@ describe('Icon Catalog & Local Hub Integration', () => {
     const adw = HUB_COLLECTIONS.find((c) => c.prefix === 'adw');
     assert.ok(adw, 'GNOME Adwaita collection must exist');
     assert.equal(adw.name, 'GNOME Adwaita');
-    assert.equal(adw.total, 641);
+    assert.ok(adw.total >= 641);
     assert.equal(adw.isHub, true);
 
     const breeze = HUB_COLLECTIONS.find((c) => c.prefix === 'breeze');

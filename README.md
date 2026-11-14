@@ -15,7 +15,7 @@ All packages produced by this hub conform 100% to Iconify JSON standards and can
 
 | ID | Prefix | Name | Version | Icons | Upstream Source | Package |
 |---|---|---|---|---|---|---|
-| `adw` | `adw` | **GNOME Adwaita** | `49.0.0` | 641 | [adwaita-icon-theme](https://gitlab.gnome.org/GNOME/adwaita-icon-theme) | [`packages/adw`](./packages/adw) |
+| `adw` | `adw` | **GNOME Adwaita** | `51.0.0` | 644 | [adwaita-icon-theme](https://gitlab.gnome.org/GNOME/adwaita-icon-theme) | [`packages/adw`](./packages/adw) |
 | `breeze` | `breeze` | **KDE Breeze** | `6.32.0` | 3,422 | [breeze-icons](https://github.com/KDE/breeze-icons) | [`packages/breeze`](./packages/breeze) |
 
 ---

@@ -1,8 +1,8 @@
 {
 	"prefix": "adw",
 	"name": "GNOME Adwaita",
-	"total": 641,
-	"version": "49.0.0",
+	"total": 644,
+	"version": "51.0",
 	"author": {
 		"name": "GNOME Project",
 		"url": "https://gitlab.gnome.org/GNOME/adwaita-icon-theme"

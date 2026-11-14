@@ -3,8 +3,8 @@
 Unofficial Iconify dataset for **GNOME Adwaita**.
 
 - **Icon Prefix:** `adw`
-- **Total Icons:** 641
-- **Version:** 49.0.0
+- **Total Icons:** 644
+- **Version:** 51.0
 - **License:** [CC-BY-SA-4.0](https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/COPYING)
 - **Author:** [GNOME Project](https://gitlab.gnome.org/GNOME/adwaita-icon-theme)
 
@@ -112,8 +112,8 @@ Optimized SVG files are provided directly in `svg/`:
 - **Categories** (20 icons)
 - **Devices** (65 icons)
 - **Emotes** (26 icons)
-- **Legacy** (49 icons)
+- **Legacy** (51 icons)
 - **Mimetypes** (20 icons)
-- **Places** (17 icons)
+- **Places** (19 icons)
 - **Status** (237 icons)
 - **Ui** (25 icons)

@@ -6,14 +6,14 @@ export const adwSet: IconSetDefinition = {
   source: {
     type: 'git',
     url: 'https://gitlab.gnome.org/GNOME/adwaita-icon-theme.git',
-    ref: '49.0',
+    ref: '51.0',
     subDir: 'Adwaita/symbolic',
     fallbackLocalDir: '/usr/share/icons/Adwaita/symbolic',
     tagPattern: '^\\d+(\\.\\d+)?$',
   },
   info: {
     name: 'GNOME Adwaita',
-    version: '49.0.0',
+    version: '51.0',
     author: {
       name: 'GNOME Project',
       url: 'https://gitlab.gnome.org/GNOME/adwaita-icon-theme',
@@ -58,7 +58,7 @@ export const adwSet: IconSetDefinition = {
   },
   package: {
     name: '@iconify-hub/adw',
-    version: '49.0.0',
+    version: '51.0',
     description: 'Unofficial GNOME Adwaita icon set in Iconify JSON format',
     keywords: ['gnome', 'adwaita', 'gtk', 'symbolic', 'desktop'],
   },

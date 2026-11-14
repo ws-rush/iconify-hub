@@ -61,7 +61,7 @@ export function CollectionList({
             Explore 280+ Icon Collections
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Directly browse local <span className="text-brand-300 font-semibold">GNOME Adwaita (641 icons)</span> and{' '}
+            Directly browse local <span className="text-brand-300 font-semibold">GNOME Adwaita (644 icons)</span> and{' '}
             <span className="text-brand-300 font-semibold">KDE Breeze (3,422 icons)</span> packages with zero network lag, plus hundreds of official upstream Iconify collections.
           </p>
         </div>
