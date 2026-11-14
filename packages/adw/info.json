@@ -1,0 +1,24 @@
+{
+	"prefix": "adw",
+	"name": "GNOME Adwaita",
+	"version": "49.0.0",
+	"author": {
+		"name": "GNOME Project",
+		"url": "https://gitlab.gnome.org/GNOME/adwaita-icon-theme"
+	},
+	"license": {
+		"title": "CC-BY-SA-4.0",
+		"spdx": "CC-BY-SA-4.0",
+		"url": "https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/COPYING"
+	},
+	"samples": [
+		"edit-copy",
+		"document-open",
+		"emblem-ok",
+		"folder"
+	],
+	"height": 16,
+	"displayHeight": 16,
+	"category": "General",
+	"total": 643
+}

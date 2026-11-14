@@ -1,0 +1,48 @@
+{
+	"name": "@iconify-hub/adw",
+	"description": "Unofficial GNOME Adwaita icon set in Iconify JSON format",
+	"version": "49.0.0",
+	"iconSetVersion": "49.0.0",
+	"main": "index.js",
+	"module": "index.mjs",
+	"types": "index.d.ts",
+	"license": "CC-BY-SA-4.0",
+	"keywords": [
+		"iconify",
+		"icons",
+		"iconset",
+		"adw",
+		"gnome",
+		"adwaita",
+		"gtk",
+		"symbolic",
+		"desktop"
+	],
+	"exports": {
+		"./*": "./*",
+		".": {
+			"types": "./index.d.ts",
+			"require": "./index.js",
+			"import": "./index.mjs"
+		},
+		"./icons.json": "./icons.json",
+		"./info.json": "./info.json",
+		"./metadata.json": "./metadata.json"
+	},
+	"iconSet": {
+		"icons": "icons.json",
+		"info": "info.json",
+		"metadata": "metadata.json"
+	},
+	"dependencies": {
+		"@iconify/types": "*"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/iconify-hub/iconify-hub",
+		"directory": "packages/adw"
+	}
+}
