@@ -76,6 +76,8 @@ export interface IconSetData {
   aliases?: Record<string, IconAlias>;
   width?: number;
   height?: number;
+  left?: number;
+  top?: number;
   lastModified?: number;
 }
 

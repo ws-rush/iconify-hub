@@ -1,4 +1,4 @@
-import type { CollectionInfo, IconSetData, IconMetadata } from '../types/icon';
+import type { CollectionInfo, IconSetData, IconMetadata, IconData } from '../types/icon';
 import adwInfoRaw from '../../../../packages/adw/info.json';
 import breezeInfoRaw from '../../../../packages/breeze/info.json';
 
@@ -43,6 +43,44 @@ export function getHubCollectionInfo(prefix: string): CollectionInfo | undefined
 // In-memory cache for loaded Hub icon sets
 const hubDataCache = new Map<string, { iconSet: IconSetData; metadata: IconMetadata }>();
 
+function normalizeIconSet(rawSet: IconSetData): IconSetData {
+  const defaultWidth = rawSet.width || 16;
+  const defaultHeight = rawSet.height || 16;
+  const defaultLeft = rawSet.left || 0;
+  const defaultTop = rawSet.top || 0;
+
+  const normalizedIcons: Record<string, IconData> = {};
+
+  for (const [name, icon] of Object.entries(rawSet.icons)) {
+    normalizedIcons[name] = {
+      ...icon,
+      width: icon.width ?? defaultWidth,
+      height: icon.height ?? defaultHeight,
+      left: icon.left ?? defaultLeft,
+      top: icon.top ?? defaultTop,
+    };
+  }
+
+  if (rawSet.aliases) {
+    for (const [aliasName, aliasInfo] of Object.entries(rawSet.aliases)) {
+      const parent = normalizedIcons[aliasInfo.parent];
+      if (parent) {
+        normalizedIcons[aliasName] = {
+          ...parent,
+          rotate: aliasInfo.rotate ?? parent.rotate,
+          hFlip: aliasInfo.hFlip ?? parent.hFlip,
+          vFlip: aliasInfo.vFlip ?? parent.vFlip,
+        };
+      }
+    }
+  }
+
+  return {
+    ...rawSet,
+    icons: normalizedIcons,
+  };
+}
+
 export async function getHubIconSet(prefix: string): Promise<{ iconSet: IconSetData; metadata: IconMetadata } | null> {
   const cached = hubDataCache.get(prefix);
   if (cached) {
@@ -55,8 +93,9 @@ export async function getHubIconSet(prefix: string): Promise<{ iconSet: IconSetD
       import('../../../../packages/adw/metadata.json'),
     ]);
 
+    const rawSet = (iconsModule.default || iconsModule) as unknown as IconSetData;
     const data = {
-      iconSet: (iconsModule.default || iconsModule) as unknown as IconSetData,
+      iconSet: normalizeIconSet(rawSet),
       metadata: (metaModule.default || metaModule) as unknown as IconMetadata,
     };
     hubDataCache.set('adw', data);
@@ -69,8 +108,9 @@ export async function getHubIconSet(prefix: string): Promise<{ iconSet: IconSetD
       import('../../../../packages/breeze/metadata.json'),
     ]);
 
+    const rawSet = (iconsModule.default || iconsModule) as unknown as IconSetData;
     const data = {
-      iconSet: (iconsModule.default || iconsModule) as unknown as IconSetData,
+      iconSet: normalizeIconSet(rawSet),
       metadata: (metaModule.default || metaModule) as unknown as IconMetadata,
     };
     hubDataCache.set('breeze', data);
