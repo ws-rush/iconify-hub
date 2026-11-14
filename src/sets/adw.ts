@@ -22,7 +22,7 @@ export const adwSet: IconSetDefinition = {
       spdx: 'CC-BY-SA-4.0',
       url: 'https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/COPYING',
     },
-    samples: ['edit-copy', 'document-open', 'emblem-important', 'folder'],
+    samples: ['edit-copy', 'document-open', 'dialog-information', 'folder'],
     height: 16,
     displayHeight: 16,
     category: 'General',

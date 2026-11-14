@@ -19,17 +19,49 @@ All packages produced by this hub conform 100% to Iconify JSON standards and can
 
 ---
 
-## Quick Start: Using GNOME Adwaita (`adw`)
+## Installation via GitHub
 
-### 1. Installation
+Because these icon sets are maintained directly on GitHub without publishing to npm, you can install them using Git subpaths or local directory references.
+
+### 1. Using Package Managers (Git Subpath)
 
 ```bash
-npm install ./packages/adw
-# or when published to npm
-npm install @iconify-hub/adw
+# npm (>= 7)
+npm install "github:ws-rush/iconify-hub#path:packages/adw"
+
+# pnpm
+pnpm add "github:ws-rush/iconify-hub#path:packages/adw"
+
+# yarn
+yarn add "https://github.com/ws-rush/iconify-hub.git#path:packages/adw"
+
+# bun
+bun add "github:ws-rush/iconify-hub#path:packages/adw"
 ```
 
-### 2. UnoCSS (`uno.config.ts`)
+You can also specify the dependency directly in your project's `package.json`:
+
+```json
+{
+  "dependencies": {
+    "@iconify-hub/adw": "github:ws-rush/iconify-hub#path:packages/adw"
+  }
+}
+```
+
+### 2. Local Monorepo or Submodule Reference
+
+If you clone or add `iconify-hub` as a git submodule:
+
+```bash
+pnpm add ./packages/adw
+```
+
+---
+
+## Quick Start: Using GNOME Adwaita (`adw`)
+
+### 1. UnoCSS (`uno.config.ts`)
 
 ```ts
 import { defineConfig, presetIcons } from 'unocss'

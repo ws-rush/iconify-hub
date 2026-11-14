@@ -40,7 +40,7 @@ export class Packager {
         };
         pkg.repository = {
           type: 'git',
-          url: 'https://github.com/iconify-hub/iconify-hub',
+          url: 'https://github.com/ws-rush/iconify-hub',
           directory: path.relative(process.cwd(), outDir),
         };
       },
@@ -97,14 +97,39 @@ Unofficial Iconify dataset for **${def.info.name}**.
 - **License:** [${def.info.license?.title || 'License'}](${def.info.license?.url || '#'})
 - **Author:** [${def.info.author?.name || 'Upstream'}](${def.info.author?.url || '#'})
 
-## Installation
+## Installation via GitHub
+
+Install directly from GitHub without publishing to npm:
+
+### 1. Using package managers (Git subpath)
 
 \`\`\`bash
-npm install ${pkgName}
-# or
-pnpm add ${pkgName}
-# or
-yarn add ${pkgName}
+# npm
+npm install "github:ws-rush/iconify-hub#path:packages/${def.id}"
+
+# pnpm
+pnpm add "github:ws-rush/iconify-hub#path:packages/${def.id}"
+
+# yarn
+yarn add "https://github.com/ws-rush/iconify-hub.git#path:packages/${def.id}"
+
+# bun
+bun add "github:ws-rush/iconify-hub#path:packages/${def.id}"
+\`\`\`
+
+Or add directly to \`package.json\`:
+\`\`\`json
+{
+  "dependencies": {
+    "${pkgName}": "github:ws-rush/iconify-hub#path:packages/${def.id}"
+  }
+}
+\`\`\`
+
+### 2. Local or Monorepo Reference
+
+\`\`\`bash
+pnpm add ./packages/${def.id}
 \`\`\`
 
 ## Usage

@@ -46,8 +46,8 @@ describe('Adwaita Package (@iconify-hub/adw)', () => {
     const folderIcon = getIconData(data, 'folder');
     assert.ok(folderIcon, 'folder icon found');
 
-    const emblemIcon = getIconData(data, 'emblem-important');
-    assert.ok(emblemIcon, 'emblem-important icon found');
+    const infoIcon = getIconData(data, 'dialog-information');
+    assert.ok(infoIcon, 'dialog-information icon found');
   });
 
   test('svg directory contains standalone SVGs', async () => {

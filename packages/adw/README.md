@@ -3,19 +3,44 @@
 Unofficial Iconify dataset for **GNOME Adwaita**.
 
 - **Icon Prefix:** `adw`
-- **Total Icons:** 643
+- **Total Icons:** 641
 - **Version:** 49.0.0
 - **License:** [CC-BY-SA-4.0](https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/COPYING)
 - **Author:** [GNOME Project](https://gitlab.gnome.org/GNOME/adwaita-icon-theme)
 
-## Installation
+## Installation via GitHub
+
+Install directly from GitHub without publishing to npm:
+
+### 1. Using package managers (Git subpath)
 
 ```bash
-npm install @iconify-hub/adw
-# or
-pnpm add @iconify-hub/adw
-# or
-yarn add @iconify-hub/adw
+# npm
+npm install "github:ws-rush/iconify-hub#path:packages/adw"
+
+# pnpm
+pnpm add "github:ws-rush/iconify-hub#path:packages/adw"
+
+# yarn
+yarn add "https://github.com/ws-rush/iconify-hub.git#path:packages/adw"
+
+# bun
+bun add "github:ws-rush/iconify-hub#path:packages/adw"
+```
+
+Or add directly to `package.json`:
+```json
+{
+  "dependencies": {
+    "@iconify-hub/adw": "github:ws-rush/iconify-hub#path:packages/adw"
+  }
+}
+```
+
+### 2. Local or Monorepo Reference
+
+```bash
+pnpm add ./packages/adw
 ```
 
 ## Usage
@@ -87,8 +112,8 @@ Optimized SVG files are provided directly in `svg/`:
 - **Categories** (20 icons)
 - **Devices** (65 icons)
 - **Emotes** (26 icons)
-- **Legacy** (51 icons)
+- **Legacy** (49 icons)
 - **Mimetypes** (20 icons)
-- **Places** (18 icons)
+- **Places** (17 icons)
 - **Status** (237 icons)
 - **Ui** (25 icons)

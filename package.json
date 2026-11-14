@@ -20,6 +20,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ws-rush/iconify-hub.git"
+  },
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
     "@iconify/tools": "^5.0.14",
