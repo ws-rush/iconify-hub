@@ -5,6 +5,7 @@ import { existsSync } from 'node:fs';
 import { validateIconSet } from '@iconify/utils';
 import { Pipeline } from './pipeline.js';
 import { getAllSets, getSet } from './sets/index.js';
+import { runUpstreamCheck, checkUpstream, updateSetDefinition } from './updater.js';
 
 const [, , command = 'build', target] = process.argv;
 
@@ -63,6 +64,33 @@ async function run() {
         const data = JSON.parse(raw);
         validateIconSet(data);
         console.log(`✔ [validate] Set "${def.id}" passed Iconify schema validation (${Object.keys(data.icons).length} icons, ${Object.keys(data.aliases || {}).length} aliases)`);
+      }
+      break;
+    }
+
+    case 'check': {
+      console.log('Checking upstream repositories for new releases...\n');
+      const results = await runUpstreamCheck(false);
+      const updates = results.filter((r) => r.hasUpdate);
+      if (updates.length > 0) {
+        console.log(`\nUpdates available for ${updates.length} set(s):`);
+        for (const u of updates) {
+          console.log(`• ${u.name} (${u.id}): ${u.currentRef} -> ${u.latestRef}`);
+        }
+      } else {
+        console.log('\nAll icon sets are up to date with upstream!');
+      }
+      break;
+    }
+
+    case 'update': {
+      console.log('Checking and updating upstream repositories...\n');
+      const results = await runUpstreamCheck(true);
+      const updates = results.filter((r) => r.hasUpdate);
+      if (updates.length > 0) {
+        console.log(`\nUpdated ${updates.length} set(s) successfully!`);
+      } else {
+        console.log('\nNo updates needed. All icon sets are current.');
       }
       break;
     }

@@ -14,6 +14,8 @@ export type IconSourceConfig =
       subDir?: string;
       /** Fallback local directory if offline/cached (e.g. '/usr/share/icons/Adwaita/symbolic') */
       fallbackLocalDir?: string;
+      /** Pattern string to match release tags (e.g. '^\\d+(\\.\\d+)?$' or '^v6\\.') */
+      tagPattern?: string;
     }
   | {
       type: 'local';
@@ -137,4 +139,15 @@ export interface BuildResult {
   outDir: string;
   iconSet: IconifyJSON;
   files: string[];
+}
+
+/**
+ * Result of checking upstream version.
+ */
+export interface UpstreamCheckResult {
+  id: string;
+  name: string;
+  currentRef: string;
+  latestRef: string;
+  hasUpdate: boolean;
 }

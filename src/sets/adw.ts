@@ -9,6 +9,7 @@ export const adwSet: IconSetDefinition = {
     ref: '49.0',
     subDir: 'Adwaita/symbolic',
     fallbackLocalDir: '/usr/share/icons/Adwaita/symbolic',
+    tagPattern: '^\\d+(\\.\\d+)?$',
   },
   info: {
     name: 'GNOME Adwaita',

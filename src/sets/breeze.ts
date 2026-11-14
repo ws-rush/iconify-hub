@@ -8,6 +8,7 @@ export const breezeSet: IconSetDefinition = {
     url: 'https://github.com/KDE/breeze-icons.git',
     ref: 'v6.32.0',
     subDir: 'icons',
+    tagPattern: '^v6\\.\\d+\\.\\d+$',
   },
   info: {
     name: 'KDE Breeze',

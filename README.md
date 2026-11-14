@@ -218,12 +218,33 @@ pnpm iconify-hub build adw
 # List all registered sets and source info
 pnpm list
 
+# Check upstream repositories for newer releases
+pnpm check
+
+# Automatically update set definitions and rebuild packages if updates exist
+pnpm update
+
 # Validate all built sets against the Iconify JSON schema
 pnpm validate
 
 # Run test suite
 pnpm test
 ```
+
+---
+
+## Automated Maintenance & CI/CD
+
+This repository includes two GitHub Actions workflows:
+
+1. **Continuous Integration ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml)):**
+   - Runs on every push and pull request to `main`.
+   - Executes typechecking (`pnpm typecheck`), compilation (`pnpm compile`), test suite (`pnpm test`), and Iconify schema validation (`pnpm validate`).
+
+2. **Upstream Check & Release ([`.github/workflows/upstream-check.yml`](./.github/workflows/upstream-check.yml)):**
+   - Runs on a cron schedule daily at 04:00 UTC and on manual trigger (`workflow_dispatch`).
+   - Checks upstream Git repositories for new tags.
+   - If updates are detected, it updates set configs, rebuilds packages, runs full validation, commits changes, creates a Git release tag, and publishes a new GitHub Release.
 
 ---
 
