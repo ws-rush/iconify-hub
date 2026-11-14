@@ -18,7 +18,10 @@
     "check": "tsx src/cli.ts check",
     "update": "tsx src/cli.ts update",
     "list": "tsx src/cli.ts list",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "tsx --test tests/*.test.ts",
+    "dev:web": "pnpm -C apps/web dev",
+    "build:web": "pnpm -C apps/web build",
+    "preview:web": "pnpm -C apps/web preview"
   },
   "keywords": [],
   "author": "",

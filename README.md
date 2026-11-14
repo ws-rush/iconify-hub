@@ -229,6 +229,12 @@ pnpm validate
 
 # Run test suite
 pnpm test
+
+# Run Web Explorer development server
+pnpm dev:web
+
+# Build Web Explorer for production
+pnpm build:web
 ```
 
 ---
