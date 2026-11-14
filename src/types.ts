@@ -33,6 +33,16 @@ export type IconSourceConfig =
  */
 export interface IconTransformConfig {
   /**
+   * Only include files matching these patterns.
+   */
+  include?: RegExp[];
+
+  /**
+   * Exclude file pattern (regex or glob)
+   */
+  exclude?: RegExp[];
+
+  /**
    * Function to normalize or rename icon identifiers.
    * Return null or undefined to skip/exclude the icon.
    */
@@ -58,11 +68,6 @@ export interface IconTransformConfig {
       value: string;
     }
   ) => string | undefined;
-
-  /**
-   * Exclude file pattern (regex or glob)
-   */
-  exclude?: RegExp[];
 }
 
 /**

@@ -1,0 +1,48 @@
+{
+	"name": "@iconify-hub/breeze",
+	"description": "Unofficial KDE Breeze icon set in Iconify JSON format",
+	"version": "6.32.0",
+	"iconSetVersion": "6.32.0",
+	"main": "index.js",
+	"module": "index.mjs",
+	"types": "index.d.ts",
+	"license": "LGPL-3.0-or-later",
+	"keywords": [
+		"iconify",
+		"icons",
+		"iconset",
+		"breeze",
+		"kde",
+		"breeze",
+		"plasma",
+		"desktop",
+		"linux"
+	],
+	"exports": {
+		"./*": "./*",
+		".": {
+			"types": "./index.d.ts",
+			"require": "./index.js",
+			"import": "./index.mjs"
+		},
+		"./icons.json": "./icons.json",
+		"./info.json": "./info.json",
+		"./metadata.json": "./metadata.json"
+	},
+	"iconSet": {
+		"icons": "icons.json",
+		"info": "info.json",
+		"metadata": "metadata.json"
+	},
+	"dependencies": {
+		"@iconify/types": "*"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ws-rush/iconify-hub",
+		"directory": "packages/breeze"
+	}
+}

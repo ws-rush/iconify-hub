@@ -20,9 +20,23 @@ export async function scanSVGFiles(dir: string, baseDir = dir): Promise<ScanResu
 
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
+    let isDir = entry.isDirectory();
+    let isFile = entry.isFile();
+
+    if (entry.isSymbolicLink()) {
+      try {
+        const stat = await fs.stat(fullPath);
+        // Do not recurse into directory symlinks to avoid infinite loops and duplicate passes
+        isDir = false;
+        isFile = stat.isFile();
+      } catch {
+        continue;
+      }
+    }
+
+    if (isDir) {
       results.push(...(await scanSVGFiles(fullPath, baseDir)));
-    } else if (entry.isFile() && entry.name.endsWith('.svg')) {
+    } else if (isFile && entry.name.endsWith('.svg')) {
       const relativePath = path.relative(baseDir, fullPath);
       const parts = relativePath.split(path.sep);
       const folderCategory = parts.length > 1 ? parts[0] : undefined;
@@ -56,6 +70,11 @@ export async function buildIconSet(
   const categoriesMap: Record<string, Set<string>> = {};
 
   for (const file of files) {
+    // Check inclusions
+    if (def.transform?.include && !def.transform.include.some((rx) => rx.test(file.relativePath))) {
+      continue;
+    }
+
     // Check exclusions
     if (def.transform?.exclude?.some((rx) => rx.test(file.relativePath))) {
       continue;
@@ -83,77 +102,77 @@ export async function buildIconSet(
       }
     }
 
-    // Read SVG content
-    const content = await fs.readFile(file.filePath, 'utf8');
-    const svg = new SVG(content);
-
-    // Clean up SVG
+    // Read, parse, clean, optimize, and register SVG
     try {
+      const content = await fs.readFile(file.filePath, 'utf8');
+      const svg = new SVG(content);
       await cleanupSVG(svg);
       await checkBadTags(svg);
+
+      // Color handling:
+      // Replace dark neutral fills with currentColor while preserving accent colors (error/warning/success).
+      const monotoneColor = def.transform?.monotoneColor || 'currentColor';
+      await parseColors(svg, {
+        defaultColor: monotoneColor,
+        callback: (attr, colorStr) => {
+          if (def.transform?.colorCallback) {
+            const custom = def.transform.colorCallback({ prop: attr, value: colorStr });
+            if (custom !== undefined) return custom;
+          }
+
+          const normalized = colorStr.toLowerCase().trim();
+          // Standard GNOME / KDE symbolic dark neutral tones
+          if (
+            normalized === '#2e3436' ||
+            normalized === '#222222' ||
+            normalized === '#2e3434' ||
+            normalized === '#232629' ||
+            normalized === '#31363b' ||
+            normalized === '#4d4d4d' ||
+            normalized === '#000000' ||
+            normalized === 'black'
+          ) {
+            return monotoneColor;
+          }
+
+          // Keep explicit accents (e.g. #ed333b red, #ff7800 orange, #33d17a green, #3584e4 blue, #ffffff)
+          return colorStr;
+        },
+      });
+
+      // Run SVGO optimization
+      await runSVGO(svg, {
+        plugins: [
+          'preset-default',
+          'removeDimensions',
+          {
+            name: 'removeAttrs',
+            params: {
+              attrs: ['class', 'color'],
+            },
+          },
+        ],
+      });
+
+      // Add to IconSet
+      iconSet.fromSVG(finalName, svg);
+
+      // Register aliases
+      for (const alias of aliases) {
+        if (alias !== finalName) {
+          iconSet.setAlias(alias, finalName);
+        }
+      }
+
+      // Track category
+      if (category) {
+        iconSet.toggleCategory(finalName, category, true);
+        if (!categoriesMap[category]) categoriesMap[category] = new Set();
+        categoriesMap[category].add(finalName);
+      }
     } catch (err) {
       console.warn(`[builder] Skipping broken SVG ${file.relativePath}: ${(err as Error).message}`);
       continue;
-    }
-
-    // Color handling:
-    // Monotone icons in GTK/GNOME typically use #2e3436, #222222, or black.
-    // Replace dark neutral fills with currentColor while preserving accent colors (error/warning/success).
-    const monotoneColor = def.transform?.monotoneColor || 'currentColor';
-    await parseColors(svg, {
-      defaultColor: monotoneColor,
-      callback: (attr, colorStr) => {
-        if (def.transform?.colorCallback) {
-          const custom = def.transform.colorCallback({ prop: attr, value: colorStr });
-          if (custom !== undefined) return custom;
-        }
-
-        const normalized = colorStr.toLowerCase().trim();
-        // Standard GNOME symbolic dark neutral tones
-        if (
-          normalized === '#2e3436' ||
-          normalized === '#222222' ||
-          normalized === '#2e3434' ||
-          normalized === '#000000' ||
-          normalized === 'black'
-        ) {
-          return monotoneColor;
-        }
-
-        // Keep explicit accents (e.g. #ed333b red, #ff7800 orange, #33d17a green, #3584e4 blue, #ffffff)
-        return colorStr;
-      },
-    });
-
-    // Run SVGO optimization
-    await runSVGO(svg, {
-      plugins: [
-        'preset-default',
-        'removeDimensions',
-        {
-          name: 'removeAttrs',
-          params: {
-            attrs: ['class'],
-          },
-        },
-      ],
-    });
-
-    // Add to IconSet
-    iconSet.fromSVG(finalName, svg);
-
-    // Register aliases
-    for (const alias of aliases) {
-      if (alias !== finalName) {
-        iconSet.setAlias(alias, finalName);
-      }
-    }
-
-    // Track category
-    if (category) {
-      iconSet.toggleCategory(finalName, category, true);
-      if (!categoriesMap[category]) categoriesMap[category] = new Set();
-      categoriesMap[category].add(finalName);
     }
   }
 

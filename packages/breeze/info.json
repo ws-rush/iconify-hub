@@ -1,0 +1,25 @@
+{
+	"prefix": "breeze",
+	"name": "KDE Breeze",
+	"total": 3422,
+	"version": "6.32.0",
+	"author": {
+		"name": "KDE Visual Design Group",
+		"url": "https://invent.kde.org/frameworks/breeze-icons"
+	},
+	"license": {
+		"title": "LGPL-3.0",
+		"spdx": "LGPL-3.0-or-later",
+		"url": "https://invent.kde.org/frameworks/breeze-icons/-/blob/master/COPYING.LIB"
+	},
+	"samples": [
+		"document-open",
+		"document-save",
+		"edit-copy",
+		"folder",
+		"help-about"
+	],
+	"height": 22,
+	"displayHeight": 22,
+	"category": "General"
+}

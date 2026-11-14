@@ -15,7 +15,8 @@ All packages produced by this hub conform 100% to Iconify JSON standards and can
 
 | ID | Prefix | Name | Version | Icons | Upstream Source | Package |
 |---|---|---|---|---|---|---|
-| `adw` | `adw` | **GNOME Adwaita** | `49.0.0` | 643 | [adwaita-icon-theme](https://gitlab.gnome.org/GNOME/adwaita-icon-theme) | [`packages/adw`](./packages/adw) |
+| `adw` | `adw` | **GNOME Adwaita** | `49.0.0` | 641 | [adwaita-icon-theme](https://gitlab.gnome.org/GNOME/adwaita-icon-theme) | [`packages/adw`](./packages/adw) |
+| `breeze` | `breeze` | **KDE Breeze** | `6.32.0` | 3,422 | [breeze-icons](https://github.com/KDE/breeze-icons) | [`packages/breeze`](./packages/breeze) |
 
 ---
 
@@ -26,17 +27,11 @@ Because these icon sets are maintained directly on GitHub without publishing to 
 ### 1. Using Package Managers (Git Subpath)
 
 ```bash
-# npm (>= 7)
-npm install "github:ws-rush/iconify-hub#path:packages/adw"
-
-# pnpm
+# GNOME Adwaita
 pnpm add "github:ws-rush/iconify-hub#path:packages/adw"
 
-# yarn
-yarn add "https://github.com/ws-rush/iconify-hub.git#path:packages/adw"
-
-# bun
-bun add "github:ws-rush/iconify-hub#path:packages/adw"
+# KDE Breeze
+pnpm add "github:ws-rush/iconify-hub#path:packages/breeze"
 ```
 
 You can also specify the dependency directly in your project's `package.json`:
@@ -44,7 +39,8 @@ You can also specify the dependency directly in your project's `package.json`:
 ```json
 {
   "dependencies": {
-    "@iconify-hub/adw": "github:ws-rush/iconify-hub#path:packages/adw"
+    "@iconify-hub/adw": "github:ws-rush/iconify-hub#path:packages/adw",
+    "@iconify-hub/breeze": "github:ws-rush/iconify-hub#path:packages/breeze"
   }
 }
 ```
